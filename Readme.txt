@@ -27,6 +27,15 @@
 	Class Lectures
 	Google C++ Stylesheet
 	Data Structures & Algorithems in C++, 2nd Edition, Goodrich, Tamassia, & Mount
+	https://www.youtube.com/watch?v=gcULXE7ViZw
+	https://www.geeksforgeeks.org/friend-class-function-cpp/
+	https://isocpp.org/wiki/faq/serialization#serialize-binary-format
+	http://www.cplusplus.com/doc/tutorial/files/	
+	https://www.geeksforgeeks.org/readwrite-class-objects-fromto-file-c/include <Exception>
+	http://www.cplusplus.com/forum/general/183701/
+	http://www.cplusplus.com/reference/cstring/strcpy/
+	https://stackoverflow.com/questions/357307/how-to-call-a-parent-class-function-from-derived-class-function
+	https://www.geeksforgeeks.org/how-to-convert-c-style-strings-to-stdstring-and-vice-versa/dvisees->SearchPosition
 
 5. Instructions for running the assignment
 	1.) Run "make"

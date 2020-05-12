@@ -1,0 +1,164 @@
+
+#include "bst.h"
+
+using namespace std; 
+
+DoublyLinkedList<int>* p;
+DoublyLinkedList<string>* p2;
+void tps(){
+	cout << endl << endl << "Printing out the position list for tree 0:" << endl;
+	cout << "P Size: " << p->Size() << endl;
+	while(p->Size() > 0){
+		cout << p->Front() << ", ";
+		p->RemoveFront();
+	}
+	cout << endl << endl << endl << endl;	
+}
+void tps2(){
+	cout << endl << endl << "Printint out the position list for tree 1:" << endl;
+	while(p2->Size() > 0){
+		cout << p2->Front() << ", ";
+		p2->RemoveFront();
+	}
+	cout << endl << endl << endl << endl;
+}
+
+int main(){
+	
+	//test the tree in different cases 	
+	BST<int, int> t;
+	BST<int, string> t2;
+	int i;
+	string s;
+	cout << "Created a 2 new Binary Search Trees" << endl;
+
+	cout << "Size of trees should 0:" << endl;
+	cout << "	T1: " << (t.Size() == 0) << endl;
+	cout << "	T2: " << (t2.Size() == 0) << endl;
+
+	cout << "Both Tree Should be Empty: " << endl;
+	cout << "	T1: " << t.Empty() << endl;
+	cout << "	T2: " << t2.Empty() << endl;
+	
+	cout << ": Both Trees should have a null root" << endl;
+	cout << "	T1: " << (t.Root() == 0) << endl;
+	cout << "	T2: " << (t2.Root() == 0) << endl;
+		
+	cout << "Both Tree Should Have Empty Position Lists: " << endl;
+	p = t.Positions();
+	p2 = t2.Positions();
+
+	cout << "	T1: " << (p->Size() == 0) << endl;
+	cout << "	T2: " << (p2->Size() == 0) << endl;
+	
+	delete p;
+	delete p2;
+
+	cout << "Both Trees should have a find value of false: " << endl;
+	cout << "	T1: " << !t.Find(5, i) << endl;
+	cout << "	T2: " << !t2.Find(-2, s) << endl;	
+
+	cout << "Both Trees should have an Erase Value of False" << endl;
+	cout << "	T1: " << !t.Erase(5) << endl;
+	cout << "	T2: " << !t2.Erase(0) << endl;  
+
+	cout << "Putting 6 values into the first tree" << endl;
+	t.Put(3, 3);
+	t.Put(4, 4);
+	t.Put(5, 5);
+	t.Put(6, 6);
+	t.Put(0, 0);
+	t.Put(2, 2);
+
+	cout << "Putting 10 Values into the second tree" << endl;
+	t2.Put(-4, "LOL");
+	t2.Put(123, "Hody Mateys");
+	t2.Put(234, "Gravity Falls");
+	t2.Put(0, "Star Bright");
+	t2.Put(-20, "Candy Ball");
+	t2.Put(-34, "Forces of Evil");
+	t2.Put(12, "{}{}{}{{}{}");
+	t2.Put(100, "^^^^^^^^^");
+	t2.Put(45, "Candy Canes");
+	t2.Put(23, "Donkey Kong");
+	
+	cout << "Size of trees should 6, and 10:" << endl;
+	cout << "	T1: " << (t.Size() == 6) << endl;
+	cout << "	T2: " << (t2.Size() == 10) << endl;
+
+	cout << "Both Tree Should not be Empty: " << endl;
+	cout << "	T1: " << !t.Empty() << endl;
+	cout << "	T2: " << !t2.Empty() << endl;
+	
+	cout << ": Both Trees should not have a null root" << endl;
+	cout << "	T1: " << (t.Root() != NULL) << endl;
+	cout << "	T2: " << (t2.Root() != NULL) << endl;
+		
+	cout << "Both Tree Should Have filled Position Lists: " << endl;
+	p = t.Positions();
+	p2 = t2.Positions();
+
+	cout << "	T1: " << (p->Size() == 6) << endl;
+	cout << "	T2: " << (p2->Size() == 10) << endl;
+
+	cout << endl << endl << "Printing out the position list for tree 0:" << endl;
+	while(p->Size() > 0){
+		cout << p->Front() << ", ";
+		p->RemoveFront();
+	}	
+	cout << endl << endl << "Printint out the position list for tree 1:" << endl;
+	while(p2->Size() > 0){
+		cout << p2->Front() << ", ";
+		p2->RemoveFront();
+	}
+	
+	delete p;
+	delete p2;
+
+	cout << "Both Trees should have a find value of false: " << endl;
+	cout << "	T1: " << !t.Find(1, i) << endl;
+	cout << "	T2: " << !t2.Find(10, s) << endl;	
+
+	cout << "Both Trees should have an Erase Value of False" << endl;
+	cout << "	T1: " << !t.Erase(7) << endl;
+	cout << "	T2: " << !t2.Erase(-50) << endl;  
+
+	cout << "Find 6 in t1: " << t.Find(6, i) << endl;
+	cout << "Find 3 in t1: " << t.Find(3, i) << endl;
+	cout << "Find 2 in t1: " << t.Find(2, i) << endl;
+	cout << "Find 0 in t1: " << t.Find(0, i) << endl;
+	cout << "Find 'Forces of Evil in t2: " << t2.Find(-34, s) << " " << s << endl;
+	cout << "Find 'LOL' in t2: " << t2.Find(-4, s) << " " << s << endl;
+	cout << "Find '{}{}{}}{}' in t2: " << t2.Find(12, s) << " " << s << endl;
+	cout << "Find '^^^^^^^^^' in t2: " << t2.Find(100, s) << " " << s << endl;
+	cout << "Find 'Donkey Kong' in t2: " << t2.Find(23, s) << " " << s << endl;
+	cout << "Find 'GF' in t2: " << t2.Find(234, s) << " " << s << endl; 
+
+	cout << "Erase Function Testing Begins Here: " << endl;
+	cout << "Erasing 4, 0, and 3 from T1 in that order: " << endl;
+	t.Erase(4); 
+	t.Erase(0); 
+	t.Erase(3);
+	p = t.Positions();
+	tps();
+	delete p;
+
+	cout << "Erasing 2, 5, 6 in that order from tree 1" << endl;
+	t.Erase(2); t.Erase(5); 
+	t.Erase(6);
+	p = t.Positions();
+	tps(); 
+	delete p;
+
+	p2 = t2.Positions();
+		
+	delete p2;	
+
+	cout << "Adding more values to tree 1" << endl;
+	t.Put(5, 5);
+	t.Put(20, 20);
+	t.Put(10, 10);
+	t.Put(25, 25);
+	t.Put(100, 100);
+	
+}
