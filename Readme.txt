@@ -22,6 +22,7 @@
 	14.) main.cpp		
 
 3. Description of any known compile/runtime errors:
+	Harddrive issues that lead to file corruptions can cause the program to crash. The database software has not been tested with large amounts of items, and placing a total of over twenty entries into the database may cause unexpected behavior. Using the rollback command can result in the addition of extra characters being added to certain database strings.
 
 4. References used to complete the assignment:
 	Class Lectures
