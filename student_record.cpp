@@ -51,3 +51,14 @@ void StudentRecord::Deserialize(fstream &inputFile){
 	SerializationHelper::Deserialize<double>(inputFile, gpa);
 	SerializationHelper::Deserialize<int>(inputFile, advisor);
 }
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+void StudentRecord::Display() const {
+
+	cout << endl << endl << "Student Record: " << endl;
+	DatabaseRecord::Display();
+	cout << "\tMajor: " << major << endl;
+	cout << "\tGPA: " << gpa << endl;
+	cout << "\tAdvisor ID# " << advisor << endl << endl;
+}

@@ -17,6 +17,7 @@ using namespace std;
 class DatabaseRecord {
 
 	friend class DataBase;
+	friend class UniversityDB;
 
 	public:
 		bool operator==(const DatabaseRecord &dbr);
@@ -25,7 +26,8 @@ class DatabaseRecord {
 		bool operator<=(const DatabaseRecord &dbr);
 		bool operator>=(const DatabaseRecord &dbr); 
 		void Serialize(fstream &outputFile) const;
-		void Deserialize(fstream &inputFile); 
+		void Deserialize(fstream &inputFile);
+		void Display() const; 
 	protected:
 		int id;
 		string name;

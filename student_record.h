@@ -16,12 +16,14 @@ using namespace std;
 class StudentRecord : DatabaseRecord{
 
 	friend class Database;
+	friend class UniversityDB;
 
 	public:
 		StudentRecord();
 		StudentRecord(int id, string name, string level, string major, double gpa, int advisor);
 		void Serialize(fstream &outputFile) const;
 		void Deserialize(fstream &inputFile);
+		void Display() const;
 	private:	
 		string major;
 		double gpa;

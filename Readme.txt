@@ -36,7 +36,9 @@
 	http://www.cplusplus.com/reference/cstring/strcpy/
 	https://stackoverflow.com/questions/357307/how-to-call-a-parent-class-function-from-derived-class-function
 	https://www.geeksforgeeks.org/how-to-convert-c-style-strings-to-stdstring-and-vice-versa/dvisees->SearchPosition
-
+	https://www.edureka.co/blog/goto-statement-in-cpp/tudentRecord
+	http://www.cplusplus.com/reference/cstdio/remove/
+	
 5. Instructions for running the assignment
 	1.) Run "make"
 	2.) Run "./assignment5.exe" followed by the command line parameter of the simulation input data file.

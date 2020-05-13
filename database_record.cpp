@@ -54,3 +54,11 @@ void DatabaseRecord::Deserialize(fstream &inputFile){
 	SerializationHelper::DeserializeString(inputFile, this->name);
 	SerializationHelper::DeserializeString(inputFile, this->level);
 }
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+void DatabaseRecord::Display() const {
+	cout << "\tID#: " << id << endl;
+	cout << "\tName: " << name << endl;
+	cout << "\tLevel: " << level << endl; 
+}

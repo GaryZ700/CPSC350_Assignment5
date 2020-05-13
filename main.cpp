@@ -6,12 +6,12 @@
  Assignment 5: Building a Database with Binary Search Trees
 */
 
-#include "database.h"
+#include "university_db.h"
 
 int main(int argc, char** main){
 
 	//instantiate the database
-	Database db;
+	UniversityDB db;
 
 	return 0;
 }

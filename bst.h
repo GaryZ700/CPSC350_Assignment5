@@ -24,12 +24,14 @@ class BST {
 		int Size();
 		bool Empty();
 		BSTNode<k,v>* Root();
-		DoublyLinkedList<v>* Positions();	
+		DoublyLinkedList<v>* Positions();
+		DoublyLinkedList<v>* InOrderTraversal();	
 		bool Find(k key, v &value);
-		bool Put(k key, v value);
+		bool Put(k key, const v &value);
 		bool Erase(k key);
 	private:
 		void DeleteNodes(BSTNode<k,v>* node);
+		void GenerateInOrderTraversal(BSTNode<k,v>* node, DoublyLinkedList<v>* positionList);
 		void GeneratePositionList(BSTNode<k,v>* node, DoublyLinkedList<v>* positionList);
 		BSTNode<k,v>* InternalSearch(k key, BSTNode<k,v>** parentNode = NULL);
 		void InternalDelete(BSTNode<k,v>* deletionNode, BSTNode<k,v>* parentNode);		
@@ -94,13 +96,27 @@ DoublyLinkedList<v>* BST<k,v>::Positions(){
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 template <class k, class v>
+DoublyLinkedList<v>* BST<k,v>::InOrderTraversal(){
+
+	DoublyLinkedList<v>* positionList = new DoublyLinkedList<v>;
+	
+	GenerateInOrderTraversal(this->root, positionList);
+
+	return positionList;	
+
+}
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+template <class k, class v>
 bool BST<k,v>::Find(k key, v &value){
 
 	BSTNode<k,v>* node = InternalSearch(key);
 
-	if(node == NULL)
+	if(node == NULL){
 		return false;
-	
+	}
+
 	value = node->value;
 	return true;	
 }
@@ -108,27 +124,21 @@ bool BST<k,v>::Find(k key, v &value){
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 template <class k, class v>
-bool BST<k,v>::Put(k key, v value) {
-
-	cout << "Put Function" << endl;
+bool BST<k,v>::Put(k key, const v &value) {
 
 	BSTNode<k,v>* newNode = new BSTNode<k,v>(key, value);
 	BSTNode<k,v>* insertLocation = NULL;
-
-	cout << "Created a new node" << endl;
 
 	//check if the node is alreadly located in the tree
 	//if it is, return false to signify the new node was not added to the tree
 	if(InternalSearch(key, &insertLocation) != NULL)
 		return false;		
 
-	cout << "internal search completed" << endl;
 	//check if the root node is being put into the tree
 	//otherwise determine whether the node is being placed to the right or left of the insert location
 	if(insertLocation == NULL){
 		this->root = newNode;
 		this->root->isRoot = true;
-		cout << "inside of first if" << endl;
 	}
 	else if(key > insertLocation->key)
 		insertLocation->right = newNode;
@@ -136,7 +146,6 @@ bool BST<k,v>::Put(k key, v value) {
 		insertLocation->left = newNode; 
 	
 	++size;
-	cout << "Sucessful Put function " << endl;	
 	return true;
 }
 
@@ -184,6 +193,19 @@ void BST<k,v>::DeleteNodes(BSTNode<k,v>* node){
 //---------------------------------------------------------------------------------
 
 template <class k, class v>
+void BST<k,v>::GenerateInOrderTraversal(BSTNode<k,v>* node, DoublyLinkedList<v>* positionList){
+
+	if(node == NULL)
+		return;
+
+	GenerateInOrderTraversal(node->left, positionList);
+	positionList->InsertFront(node->value);
+	GenerateInOrderTraversal(node->right, positionList);		
+}
+
+//---------------------------------------------------------------------------------
+
+template <class k, class v>
 
 //position list generated using an inorder traveersal
 void BST<k,v>::GeneratePositionList(BSTNode<k,v>* node, DoublyLinkedList<v>* positionList){
@@ -200,15 +222,10 @@ void BST<k,v>::GeneratePositionList(BSTNode<k,v>* node, DoublyLinkedList<v>* pos
 
 template <class k, class v>
 BSTNode<k,v>* BST<k,v>::InternalSearch(k key, BSTNode<k,v>** parentNode){
-
-	cout <<  "Inside of internal search" << endl;
 	
 	BSTNode<k,v>* tempNode = this->root;
-	cout << "created temp node" << endl;
-	cout << (tempNode == NULL) << endl;
 	while(tempNode != NULL && key != tempNode->key){
 
-		cout << "inside of internal search" << endl;
 		if(parentNode != NULL)
 			*parentNode = tempNode;
 
@@ -217,8 +234,6 @@ BSTNode<k,v>* BST<k,v>::InternalSearch(k key, BSTNode<k,v>** parentNode){
 		else
 			tempNode = tempNode->left;
 	}
-
-	cout << "completed the internal search function" << endl;
 	
 	return tempNode;
 }

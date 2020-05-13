@@ -29,21 +29,20 @@ FacultyRecord::FacultyRecord(int id, string name, string level, string departmen
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-FacultyRecord::~FacultyRecord(){
-	delete advisees;
-}
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 void FacultyRecord::Serialize(fstream &outputFile) const {
 
 	DatabaseRecord::Serialize(outputFile);
 
 	SerializationHelper::SerializeString(outputFile, department);
-	SerializationHelper::Serialize<int>(outputFile, advisees->Size());
+
+	int adviseeSize  = 0;	
+	if(advisees != NULL)
+		adviseeSize = advisees->Size();		
+		
+	SerializationHelper::Serialize<int>(outputFile, adviseeSize);
 
 	int advisee;
-	for(int i=0; i<advisees->Size(); ++i){
+	for(int i=0; i<adviseeSize; ++i){
 		advisees->SearchPosition(i, advisee);
 		SerializationHelper::Serialize<int>(outputFile, advisee);
 	}
@@ -69,4 +68,23 @@ void FacultyRecord::Deserialize(fstream &inputFile){
 		SerializationHelper::Deserialize<int>(inputFile, advisee);
 		advisees->InsertFront(advisee); 
 	}
+}
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+void FacultyRecord::Display() const {
+	cout << endl << endl << "Faculty Data: " << endl;
+	DatabaseRecord::Display();
+	cout << "\tDepartment: " << department << endl;
+	
+	if(advisees->Size() == 0)
+		cout << "\tFaculty does not have any advisees." << endl;
+	else{
+		cout << "\tAdvisees ID#s: " << endl;
+		int adviseeID; 
+		for(int i=0; i<advisees->Size(); ++i){
+			advisees->SearchPosition(i, adviseeID);
+			cout << "\t\t" << adviseeID << endl;
+		}
+	} 
 }

@@ -9,27 +9,42 @@
 #include "database.h"
 
 using namespace std;
+using namespace UniversityDBConstants;
 
-Database::Database(){		
-	masterFaculty = LoadDataTable<FacultyRecord>("facultyTable");
-	masterStudent = LoadDataTable<StudentRecord>("studentTable");	
+Database::Database(string facultyFileName, string studentFileName){
+
+	masterStudent = NULL;
+	masterFaculty = NULL;
+
+	LoadData(facultyFileName, studentFileName);	
 }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Database::~Database(){
-	SaveData();	
+	SaveData(kFacultyFile, kStudentFile);	
+
+	//delete all the reference to the faculty advisee lists
+	DoublyLinkedList<FacultyRecord>* records = masterFaculty->Positions();
+	
+	while(records->Size() > 0){
+		delete records->Front().advisees;	
+		records->RemoveFront();
+	}
+	
+	delete records;
+
 	delete masterFaculty;
 	delete masterStudent;
 }
 
 //---------------------------------------------------------------------------------
 
-bool Database::SaveData(){
+bool Database::SaveData(string facultyFileName, string studentFileName){
 	
 	//save the faculty data table
 	try{
-		SaveDataTable<FacultyRecord>("facultyTable", masterFaculty);	
+		SaveDataTable<FacultyRecord>(facultyFileName, masterFaculty);
 	}
 	catch(exception e){
 		cout << "Warning! Could not save the faculty data table!" << endl;
@@ -39,7 +54,7 @@ bool Database::SaveData(){
 
 	//save the student data table
 	try{
-		SaveDataTable<StudentRecord>("studentTable", masterStudent);	
+		SaveDataTable<StudentRecord>(studentFileName, masterStudent);	
 	} 
 	catch(exception e){	
 		cout << "Warning! Could not save the student data table!" << endl;
@@ -52,8 +67,28 @@ bool Database::SaveData(){
 
 //---------------------------------------------------------------------------------
 
+bool Database::LoadData(string facultyFileName, string studentFileName){
+
+	if(masterFaculty != NULL){
+		cout << "facult tree delete" << endl;
+		delete masterFaculty;
+	}
+	if(masterStudent != NULL){
+		cout << "student tree deleted" << endl;
+		delete masterStudent;
+	}
+		
+	//load the data tables	
+	masterFaculty = LoadDataTable<FacultyRecord>(facultyFileName);
+	masterStudent = LoadDataTable<StudentRecord>(studentFileName);
+}
+
+//---------------------------------------------------------------------------------
+
 template <class record>
 BST<int, record>* Database::LoadDataTable(string fileName){
+
+	cout << "Load Data Table File: " << fileName << endl;
 
 	try{	
 		fstream loadFile(fileName, ios::binary | ios::in);
@@ -66,11 +101,10 @@ BST<int, record>* Database::LoadDataTable(string fileName){
 			int numberOfRecords;
 			SerializationHelper::Deserialize<int>(loadFile, numberOfRecords);
 
-
 			//load all of the records from the file into the DataTable
 			for(int i=0; i<numberOfRecords; ++i){
 				record recordData;
-				recordData.Serialize(loadFile);
+				recordData.Deserialize(loadFile);
 				dataTable->Put(recordData.id, recordData);
 			}
 		}
@@ -100,10 +134,9 @@ void Database::SaveDataTable(string fileName, BST<int, record>* dataTable){
 		SerializationHelper::Serialize<int>(saveFile, records->Size());
 		
 		while(!records->Empty()){
-
 			//serialize each record one by one
 			records->Front().Serialize(saveFile);
-			records->RemoveFront();	
+			records->RemoveFront();
 		}
 
 		delete records;

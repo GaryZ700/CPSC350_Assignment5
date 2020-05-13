@@ -122,7 +122,6 @@ class DoublyLinkedList{
 			//error checking to ensure that the position to be deleted is valid
 			if(position < 0 || position >= size)
 				cout << endl << "Warning! Can not remove the node at position " << position << ", the node does not exist." << endl;			
-			
 			Node *tempNode = front;
 
 			for(int i=0; i<position; ++i)
@@ -139,7 +138,7 @@ class DoublyLinkedList{
 			
 			Node *tempNode = front;
 			int position = -1;
-		
+	
 			while(tempNode != NULL){
 				
 				++position;
@@ -149,7 +148,6 @@ class DoublyLinkedList{
 				
 				tempNode = tempNode->prev;
 			}
-
 			return -1;	
 		}
 		

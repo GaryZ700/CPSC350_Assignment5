@@ -17,13 +17,14 @@ using namespace std;
 class FacultyRecord : DatabaseRecord{
 
 	friend class Database;
+	friend class UniversityDB;
 
 	public:
 		FacultyRecord();
 		FacultyRecord(int id, string name, string level, string department, DoublyLinkedList<int>* advisees);
-		~FacultyRecord();
 		void Serialize(fstream &outputFile) const;
-		void Deserialize(fstream &inputFile);	
+		void Deserialize(fstream &inputFile);
+		void Display() const;	
 	private:	
 		string department;
 		DoublyLinkedList<int>* advisees;
