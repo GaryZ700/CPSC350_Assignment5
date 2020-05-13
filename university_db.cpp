@@ -453,7 +453,7 @@ void UniversityDB::DeleteStudent(){
 	//check if there are advisor relationships that need to be delt with 
 	if(sr.advisor != -1){
 		FacultyRecord fr;
-		cout << db.masterFaculty->Find(sr.advisor, fr) << "sdf" << endl;
+		db.masterFaculty->Find(sr.advisor, fr);
 		cout << fr.advisees->Size() << endl;
 		fr.advisees->RemovePosition(fr.advisees->Search(sr.id));
 	}		
